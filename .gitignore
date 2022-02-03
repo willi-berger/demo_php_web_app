@@ -1,0 +1,6 @@
+vendor/
+node_modules/
+.settings/
+app.log
+.project
+.buildpath
