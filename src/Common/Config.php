@@ -9,10 +9,17 @@ class Config
     
     const INI_FILE = "app.ini";
     
+
     /**
      * @var string
      */
-    protected $dataSourceName;
+    protected $dbHost;
+
+    /**
+     * @var string
+     */
+    protected $dbName;
+    
     
     /**
      * @var string
@@ -24,12 +31,37 @@ class Config
      */
     protected $dbPassword;
     
+ 
     /**
      * @return string
      */
-    public function getDataSourceName()
+    public function getDbHost()
     {
-        return $this->dataSourceName;
+        return $this->dbHost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbName()
+    {
+        return $this->dbName;
+    }
+
+    /**
+     * @param string $dbHost
+     */
+    public function setDbHost($dbHost)
+    {
+        $this->dbHost = $dbHost;
+    }
+
+    /**
+     * @param string $dbName
+     */
+    public function setDbName($dbName)
+    {
+        $this->dbName = $dbName;
     }
 
     /**
@@ -48,13 +80,6 @@ class Config
         return $this->dbPassword;
     }
 
-    /**
-     * @param string $dataSourceName
-     */
-    public function setDataSourceName($dataSourceName)
-    {
-        $this->dataSourceName = $dataSourceName;
-    }
 
     /**
      * @param string $dbUserName
@@ -72,10 +97,13 @@ class Config
         $this->dbPassword = $dbPassword;
     }
 
+    
+    
     public function init() {
         $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . self::INI_FILE, true);
         $this->getLogger()->info(sprintf('initilize config from: %s', json_encode($config)));
-        $this->setDataSourceName($config['DB']['dsn']);
+        $this->setDbHost($config['DB']['dbhost']);
+        $this->setDbName($config['DB']['dbname']);
         $this->setDbUserName($config['DB']['user']);
         $this->setDbPassword($config['DB']['password']);
     }

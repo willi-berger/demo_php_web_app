@@ -12,11 +12,15 @@ class BaseModel
      */
     protected $pdo;
     
-    protected function new_pdo() {
+    protected function new_pdo() 
+    {
+        $config = Application::config();
+        $data_source = sprintf('mysql:host=%s;dbname=%s', $config->getDbHost(), $config->getDbName());
+        
         $dbh = new PDO(
-            'mysql:host=db', // Application::config()->getDataSourceName(), //'sqlite:mydb.sq3'
-            Application::config()->getDbUserName(),
-            Application::config()->getDbPassword()
+            $data_source, 
+            $config->getDbUserName(),
+            $config->getDbPassword()
         );
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
